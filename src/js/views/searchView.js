@@ -11,7 +11,6 @@ export function renderSearchView(state, getSavedBook) {
           <p class="eyebrow">Search</p>
           <h1>Look up books by title, author, or ISBN</h1>
         </div>
-        <div class="caption-pill">Google Books API</div>
       </div>
       ${renderSearchForm("Try The Great Gatsby, Toni Morrison, or 9780141182636", searchQuery)}
     </section>

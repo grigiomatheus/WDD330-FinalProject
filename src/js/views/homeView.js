@@ -10,7 +10,7 @@ export function renderHomeView(state, library, getSavedBook) {
         <p class="eyebrow">Personal Reading Dashboard</p>
         <h1>Find your next book and keep every reading plan in one place.</h1>
         <p class="hero-text">
-          Search Google Books by title, author, or ISBN, then organize everything with reading statuses and custom shelves.
+          Search books by title, author, or ISBN, then organize everything with reading statuses and custom shelves.
         </p>
         ${renderSearchForm("Search books by title, author, or ISBN")}
         <div class="topic-row">
