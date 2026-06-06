@@ -36,28 +36,18 @@ const buildBooksUrl = (params = {}) => {
 };
 
 const toFriendlyErrorMessage = (status, apiMessage = "") => {
-  if (status === 429) {
-    if (!GOOGLE_BOOKS_API_KEY) {
-      return "API key is missing. Add VITE_GOOGLE_BOOKS_API_KEY to .env and restart the dev server.";
-    }
-    return "Google Books daily quota reached. Try again tomorrow or request a quota increase in Google Cloud Console.";
+  switch (status) {
+    case 429:
+      return "Too many requests. Try again in a moment.";
+    case 401:
+    case 403:
+      return "API key error. Check your .env file.";
+    case 400:
+      return apiMessage || "Bad request. Try a different search.";
+    default:
+      if (status >= 500) return "Google Books is down. Try again later.";
+      return apiMessage || "Something went wrong loading books.";
   }
-
-  if (status === 401 || status === 403) {
-    return "Google Books rejected the API key. Check key restrictions and confirm the Books API is enabled in Google Cloud Console.";
-  }
-
-  if (status === 400) {
-    return (
-      apiMessage || "Invalid request to Google Books. Check your query and API key."
-    );
-  }
-
-  if (status >= 500) {
-    return "Google Books is temporarily unavailable. Please try again soon.";
-  }
-
-  return apiMessage || "Unable to load data from Google Books right now.";
 };
 
 const fetchJson = async (url) => {

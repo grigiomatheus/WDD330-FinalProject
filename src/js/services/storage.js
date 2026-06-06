@@ -105,14 +105,14 @@ export const saveLibrary = (library) => {
   return loadLibrary();
 };
 
-const mutateLibrary = (mutator) => {
+const updateLibrary = (updater) => {
   const library = loadLibrary();
-  mutator(library);
+  updater(library);
   return saveLibrary(library);
 };
 
 export const saveBook = (book) =>
-  mutateLibrary((library) => {
+  updateLibrary((library) => {
     const resolvedBook = cleanBook(book);
     const existingIndex = library.books.findIndex(
       (item) => item.id === resolvedBook.id
@@ -143,12 +143,12 @@ export const saveBook = (book) =>
   });
 
 export const removeBook = (bookId) =>
-  mutateLibrary((library) => {
+  updateLibrary((library) => {
     library.books = library.books.filter((book) => book.id !== bookId);
   });
 
 export const setBookStatus = (bookId, status) =>
-  mutateLibrary((library) => {
+  updateLibrary((library) => {
     if (!isValidStatus(status)) {
       return;
     }
@@ -164,7 +164,7 @@ export const setBookStatus = (bookId, status) =>
   });
 
 export const setBookProgress = (bookId, currentPage) =>
-  mutateLibrary((library) => {
+  updateLibrary((library) => {
     const book = library.books.find((item) => item.id === bookId);
 
     if (!book) {
@@ -182,7 +182,7 @@ export const setBookProgress = (bookId, currentPage) =>
     book.updatedAt = new Date().toISOString();
   });
 
-export const slugifyCategoryName = (name) =>
+export const makeCategoryId = (name) =>
   String(name)
     .toLowerCase()
     .trim()
@@ -191,7 +191,7 @@ export const slugifyCategoryName = (name) =>
     .replace(/-+/g, "-");
 
 export const addCategory = (name) =>
-  mutateLibrary((library) => {
+  updateLibrary((library) => {
     const trimmedName = String(name || "").trim();
 
     if (!trimmedName) {
@@ -199,7 +199,7 @@ export const addCategory = (name) =>
     }
 
     const baseId =
-      slugifyCategoryName(trimmedName) || `category-${Date.now()}`;
+      makeCategoryId(trimmedName) || `category-${Date.now()}`;
     let categoryId = baseId;
     let suffix = 2;
 
@@ -216,7 +216,7 @@ export const addCategory = (name) =>
   });
 
 export const renameCategory = (categoryId, newName) =>
-  mutateLibrary((library) => {
+  updateLibrary((library) => {
     const category = library.categories.find(
       (item) => item.id === categoryId
     );
@@ -235,7 +235,7 @@ export const renameCategory = (categoryId, newName) =>
   });
 
 export const deleteCategory = (categoryId) =>
-  mutateLibrary((library) => {
+  updateLibrary((library) => {
     library.categories = library.categories.filter(
       (category) => category.id !== categoryId
     );
@@ -248,7 +248,7 @@ export const deleteCategory = (categoryId) =>
   });
 
 export const toggleBookCategory = (bookId, categoryId, isSelected) =>
-  mutateLibrary((library) => {
+  updateLibrary((library) => {
     const book = library.books.find((item) => item.id === bookId);
 
     if (!book) {
