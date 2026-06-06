@@ -1,0 +1,96 @@
+﻿.topnav a,
+.filter-chip,
+.topic-chip,
+.category-link,
+.status-button,
+.secondary-button,
+.primary-button {
+  transition:
+    transform 180ms ease,
+    background-color 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease;
+}
+
+.primary-button,
+.secondary-button,
+.filter-chip,
+.topic-chip,
+.status-button,
+.category-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 800;
+}
+
+.primary-button {
+  background: var(--terracotta);
+  color: white;
+  padding: 14px 20px;
+}
+
+.secondary-button,
+.filter-chip,
+.topic-chip,
+.status-button,
+.category-link {
+  border: 1px solid rgba(42, 37, 32, 0.12);
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.62);
+  padding: 12px 18px;
+}
+
+.primary-button:hover,
+.secondary-button:hover,
+.filter-chip:hover,
+.topic-chip:hover,
+.status-button:hover,
+.category-link:hover,
+.topnav a:hover {
+  transform: translateY(-1px);
+}
+
+.small-button {
+  padding: 6px 14px;
+  font-size: 0.82rem;
+  border-radius: 8px;
+  min-width: unset;
+  white-space: nowrap;
+}
+
+.category-link.is-active,
+.filter-chip.is-active,
+.status-button.is-active {
+  background: var(--ink);
+  color: white;
+}
+
+.category-link {
+  justify-content: space-between;
+}
+
+.danger-button {
+  background: #b93c23;
+}
+
+.danger-button:hover {
+  background: #9e3220;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--slate);
+  transition: color 180ms ease;
+}
+
+.back-link:hover {
+  color: var(--terracotta);
+}

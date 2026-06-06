@@ -1,0 +1,38 @@
+﻿.reading-card,
+.reading-card-cover {
+  border-radius: 24px;
+}
+
+.reading-card {
+  display: grid;
+  grid-template-columns: 108px minmax(0, 1fr) auto;
+  align-items: stretch;
+  min-width: 0;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.64);
+  border: 1px solid rgba(42, 37, 32, 0.08);
+}
+
+.reading-card-cover {
+  background: linear-gradient(
+    180deg,
+    rgba(241, 232, 217, 0.7),
+    rgba(255, 255, 255, 0.95)
+  );
+  overflow: hidden;
+  min-height: 152px;
+}
+
+.reading-card-copy {
+  padding: 18px;
+  display: grid;
+  gap: 10px;
+}
+
+.reading-card-actions {
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+}

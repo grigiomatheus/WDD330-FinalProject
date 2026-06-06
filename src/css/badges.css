@@ -1,0 +1,40 @@
+﻿.caption-pill,
+.tag,
+.status-badge {
+  border-radius: var(--radius-md);
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 8px 12px;
+  font-size: 0.88rem;
+  font-weight: 800;
+}
+
+.caption-pill,
+.tag {
+  background: rgba(62, 124, 106, 0.08);
+  color: var(--ink);
+}
+
+.muted-tag {
+  background: rgba(42, 37, 32, 0.06);
+}
+
+.status-badge {
+  width: fit-content;
+}
+
+.status-want {
+  background: rgba(216, 154, 62, 0.18);
+  color: #8c5714;
+}
+
+.status-reading {
+  background: rgba(62, 124, 106, 0.18);
+  color: #1b5d4c;
+}
+
+.status-completed {
+  background: rgba(199, 91, 57, 0.18);
+  color: #973d22;
+}
