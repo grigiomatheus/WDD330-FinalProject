@@ -70,6 +70,7 @@ export class App {
 
   bindEvents() {
     window.addEventListener("hashchange", this.handleRouteChange);
+    window.addEventListener("resize", this.handleResize);
     this.root.addEventListener("click", this.handleClick);
     this.root.addEventListener("submit", this.handleSubmit);
     this.root.addEventListener("change", this.handleChange);
@@ -78,6 +79,7 @@ export class App {
 
   destroy() {
     window.removeEventListener("hashchange", this.handleRouteChange);
+    window.removeEventListener("resize", this.handleResize);
     this.root.removeEventListener("click", this.handleClick);
     this.root.removeEventListener("submit", this.handleSubmit);
     this.root.removeEventListener("change", this.handleChange);
@@ -96,6 +98,35 @@ export class App {
   setViewState(newState = {}) {
     this.setState({ error: "", isLoading: false, ...newState });
   }
+
+  showToast(message) {
+    const existing = document.getElementById("app-toast");
+    if (existing) existing.remove();
+
+    const toast = document.createElement("div");
+    toast.id = "app-toast";
+    toast.textContent = message;
+    document.body.appendChild(toast);
+
+    requestAnimationFrame(() => toast.classList.add("app-toast--visible"));
+    setTimeout(() => {
+      toast.classList.remove("app-toast--visible");
+      toast.addEventListener("transitionend", () => toast.remove(), { once: true });
+    }, 2200);
+  }
+
+  getFeaturedCount() {
+    const width = window.innerWidth;
+    if (width >= 1024) return 8;
+    if (width >= 720) return 4;
+    return 2;
+  }
+
+  handleResize = () => {
+    if (this.state.route?.view !== "home" || !this.allFeaturedBooks?.length) return;
+    const homeBooks = this.allFeaturedBooks.slice(0, this.getFeaturedCount());
+    this.setState({ homeBooks });
+  };
 
   handleRouteChange = async () => {
     const route = getRouteState();
@@ -126,10 +157,11 @@ export class App {
   };
 
   async loadHomeView() {
-    const homeBooks =
-      this.state.homeBooks.length > 0
-        ? this.state.homeBooks
-        : await fetchFeaturedBooks();
+    const allBooks = this.allFeaturedBooks?.length > 0 ? this.allFeaturedBooks : await fetchFeaturedBooks();
+    this.allFeaturedBooks = allBooks;
+
+    const homeBooks = allBooks.slice(0, this.getFeaturedCount());
+
     this.setViewState({ homeBooks, selectedBook: null, similarBooks: [], searchQuery: "", searchPerformed: false });
   }
 
@@ -198,6 +230,7 @@ export class App {
       if (!bookId) return;
       setBookProgress(bookId, currentPage);
       this.afterLibraryMutation();
+      this.showToast("Progress saved!");
       return;
     }
 

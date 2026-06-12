@@ -62,7 +62,7 @@ export function renderBookView(state, library, getSavedBook) {
                 ? `<button class="primary-button" data-action="remove-book" data-book-id="${resolvedBook.id}">Remove from list</button>`
                 : `<button class="primary-button" data-action="save-book" data-book-id="${resolvedBook.id}">Add to reading list</button>`
             }
-            <a class="secondary-button" href="${escapeHtml(resolvedBook.infoLink || buildHash("search"))}" target="_blank" rel="noreferrer">Open in Google Books</a>
+            <a class="secondary-button" href="${escapeHtml(resolvedBook.infoLink || buildHash("search"))}" target="_blank" rel="noreferrer">Check Book</a>
           </div>
 
           <div class="status-actions">
