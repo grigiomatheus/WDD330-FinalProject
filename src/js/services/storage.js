@@ -100,7 +100,7 @@ const persistLibrary = (library) => {
 export const loadLibrary = () =>
   parseLibrary(localStorage.getItem(STORAGE_KEY));
 
-export const saveLibrary = (library) => {
+const saveLibrary = (library) => {
   persistLibrary(library);
   return loadLibrary();
 };
@@ -182,7 +182,7 @@ export const setBookProgress = (bookId, currentPage) =>
     book.updatedAt = new Date().toISOString();
   });
 
-export const makeCategoryId = (name) =>
+const makeCategoryId = (name) =>
   String(name)
     .toLowerCase()
     .trim()

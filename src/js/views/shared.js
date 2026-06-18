@@ -1,5 +1,4 @@
 ﻿import {
-  buildHash,
   escapeHtml,
   formatAuthors,
   formatDate,
@@ -7,7 +6,6 @@
   getBookCover,
   getStatusMeta,
   truncateText,
-  READING_STATUSES,
 } from "../utils/helpers.js";
 import { getCategoryById } from "../services/storage.js";
 

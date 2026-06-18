@@ -1,4 +1,4 @@
-﻿import { buildHash, escapeHtml, formatBookCount } from "../utils/helpers.js";
+﻿import { escapeHtml, formatBookCount } from "../utils/helpers.js";
 import { getCategoryById } from "../services/storage.js";
 import { renderReadingListCard } from "./shared.js";
 

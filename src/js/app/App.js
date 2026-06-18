@@ -77,15 +77,6 @@ export class App {
     this.headerRoot.addEventListener("click", this.handleClick);
   }
 
-  destroy() {
-    window.removeEventListener("hashchange", this.handleRouteChange);
-    window.removeEventListener("resize", this.handleResize);
-    this.root.removeEventListener("click", this.handleClick);
-    this.root.removeEventListener("submit", this.handleSubmit);
-    this.root.removeEventListener("change", this.handleChange);
-    this.headerRoot.removeEventListener("click", this.handleClick);
-  }
-
   syncLibrary() {
     this.library = loadLibrary();
   }
@@ -312,7 +303,7 @@ export class App {
   }
 
   render() {
-    this.syncLibrary();
+    this.syncLibrary(); //to load items from localstorage
     const { header, content } = this.renderLayout();
     this.headerRoot.innerHTML = header;
     this.root.innerHTML = content;
