@@ -17,19 +17,9 @@ import {
   toggleBookCategory,
 } from "../services/storage.js";
 
-import { buildHash, escapeHtml, getRouteState } from "../utils/helpers.js";
+import { buildHash, getRouteState } from "../utils/helpers.js";
 
-import { renderHomeView } from "../views/homeView.js";
-import { renderSearchView } from "../views/searchView.js";
-import { renderBookView } from "../views/bookView.js";
-import { renderReadingListView } from "../views/readingListView.js";
-import { renderCategoriesView } from "../views/categoriesView.js";
-
-import {
-  renderCategoryNewView,
-  renderCategoryRenameView,
-  renderCategoryDeleteView,
-} from "../views/categoryFormViews.js";
+import { renderLayout } from "../views/layoutView.js";
 
 import "../../css/index.css";
 
@@ -303,76 +293,13 @@ export class App {
   }
 
   render() {
-    this.syncLibrary(); //to load items from localstorage
-    const { header, content } = this.renderLayout();
+    this.syncLibrary();
+    const { header, content } = renderLayout(this.state, this.library, {
+      getSavedBook: (id) => this.getSavedBook(id),
+      getReadingListBooks: () => this.getReadingListBooks(),
+      getCategoryBooks: (id) => this.getCategoryBooks(id),
+    });
     this.headerRoot.innerHTML = header;
     this.root.innerHTML = content;
-  }
-
-  renderLayout() {
-    const { route, activeMobileNav, error } = this.state;
-    const navItems = [
-      { label: "Home", href: buildHash("home"), key: "home" },
-      { label: "Search", href: buildHash("search"), key: "search" },
-      { label: "My Reading List", href: buildHash("reading-list"), key: "reading-list" },
-      { label: "Categories", href: buildHash("categories"), key: "categories" },
-    ];
-
-    return {
-      header: `
-        <a class="brand" href="${buildHash("home")}">
-          <span class="brand-mark" aria-hidden="true"></span>
-          <span>
-            <strong>Books Manager</strong>
-            <small>Search, save, and organize your next read</small>
-          </span>
-        </a>
-        <button class="menu-toggle" data-action="toggle-nav" aria-label="Toggle navigation">
-          <span></span><span></span><span></span>
-        </button>
-        <nav class="topnav ${activeMobileNav ? "is-open" : ""}">
-          ${navItems.map((item) => `<a class="${route.view === item.key ? "is-active" : ""}" href="${item.href}">${item.label}</a>`).join("")}
-        </nav>
-      `,
-      content: `
-        <div class="app-shell">
-          <main class="page-shell">
-            ${error ? `<div class="notice error">${escapeHtml(error)}</div>` : ""}
-            ${this.renderCurrentView()}
-          </main>
-        </div>
-      `,
-    };
-  }
-
-  renderCurrentView() {
-    if (this.state.isLoading) {
-      return `
-        <section class="loading-state">
-          <div class="loading-orb"></div>
-          <p>Loading your library...</p>
-        </section>
-      `;
-    }
-
-    switch (this.state.route.view) {
-      case "search":
-        return renderSearchView(this.state, (id) => this.getSavedBook(id));
-      case "book":
-        return renderBookView(this.state, this.library, (id) => this.getSavedBook(id));
-      case "reading-list":
-        return renderReadingListView(this.state, this.library, () => this.getReadingListBooks());
-      case "categories":
-        return renderCategoriesView(this.state, this.library, (id) => this.getCategoryBooks(id));
-      case "category-new":
-        return renderCategoryNewView();
-      case "category-rename":
-        return renderCategoryRenameView(this.state.route.params);
-      case "category-delete":
-        return renderCategoryDeleteView(this.state.route.params, (id) => this.getCategoryBooks(id));
-      case "home":
-      default:
-        return renderHomeView(this.state, this.library, (id) => this.getSavedBook(id));
-    }
   }
 }
